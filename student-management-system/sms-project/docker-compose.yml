@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    container_name: sms_backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - uploads_data:/app/uploads
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: sms_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  uploads_data:
+
+# NOTE: MongoDB is expected to be MongoDB Atlas (cloud), configured via
+# MONGO_URI in backend/.env — no local mongo container is included.
+# If you want a local Mongo for testing instead of Atlas, add:
+#
+#  mongo:
+#    image: mongo:7
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - mongo_data:/data/db
+#
+# and add `mongo_data:` to the volumes list, then set
+# MONGO_URI=mongodb://mongo:27017 in backend/.env

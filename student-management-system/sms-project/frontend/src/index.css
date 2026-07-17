@@ -1,0 +1,11 @@
+body {
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.nav-link.active {
+  font-weight: 600;
+}
